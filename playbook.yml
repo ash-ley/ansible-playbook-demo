@@ -1,14 +1,50 @@
 ---
 - hosts: webserver
-  gather_facts: no
+  become: yes
   tasks:
-    - name: Creating my new folder
+    - name: Installing Nginx server
+      yum:
+        name: https://nginx.org/packages/mainline/amzn2/2/x86_64/RPMS/nginx-1.21.4-1.amzn2.ngx.x86_64.rpm
+        state: present
+    - name: Copying website files to my server
+      copy:
+        src: "{{app_root}}"
+        dest: "{{document_root}}"
+        mode: preserve
+    - name: Create sites-available folder
       file:
-        path: "{{my_demo_folder_path}}"
+        path: /etc/nginx/sites-available
         state: directory
-        owner: ec2-user
-
-    - name: Creating a new file
+    - name: Apply Nginx template
+      template:
+        src: files/nginx.conf.j2
+        dest: /etc/nginx/sites-available/default
+      notify: Restart Nginx
+    - name: Create sites-enabled folder
       file:
-        path: "{{my_demo_folder_path}}/new_file.txt"
-        state: touch
+        path: /etc/nginx/sites-enabled
+        state: directory
+    - name: Enable new website
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link
+      notify: Restart Nginx
+    - name: Install ufw
+      yum:
+        name: ufw
+        state: present
+    - name: Allow access to port 80
+      ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+    - name: Start ufw
+      ufw:
+        state: enabled
+        policy: allow
+  handlers:
+    - name: Restart Nginx
+      service:
+        name: nginx
+        state: restarted
