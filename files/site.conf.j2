@@ -1,13 +1,10 @@
 server {
   listen 80;
-
-  root {{ document_root }}/{{ app_root }};
-  index index.html index.htm;
-
+  listen [::]:80;
   server_name {{ server_name }};
+  root {{ document_root }}/{{ app_root }};
 
   location / {
-   default_type "text/html";
    try_files $uri.html $uri $uri/ =404;
   }
 }

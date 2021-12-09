@@ -11,39 +11,23 @@
         src: "{{app_root}}"
         dest: "{{document_root}}"
         mode: preserve
-    - name: Create sites-available folder
+    - name: delete default nginx site
       file:
-        path: /etc/nginx/sites-available
-        state: directory
-    - name: Apply Nginx template
+        path: /etc/nginx/sites-enabled/default
+        state: absent
+    - name: Copy nginx site.conf.j2
       template:
-        src: files/nginx.conf.j2
-        dest: /etc/nginx/sites-available/default
-      notify: Restart Nginx
-    - name: Create sites-enabled folder
-      file:
-        path: /etc/nginx/sites-enabled
-        state: directory
-    - name: Enable new website
-      file:
-        src: /etc/nginx/sites-available/default
-        dest: /etc/nginx/sites-enabled/default
-        state: link
-      notify: Restart Nginx
-    - name: Install ufw
-      yum:
-        name: ufw
-        state: present
-    - name: Allow access to port 80
-      ufw:
-        rule: allow
-        port: '80'
-        proto: tcp
-    - name: Start ufw
-      ufw:
-        state: enabled
-        policy: allow
-  handlers:
+        src: files/site.conf.j2
+        dest: /etc/nginx/sites-enabled/{{app_root}}
+        owner: root
+        group: root
+        mode: '0644'
+    - name: Edit nginx.conf to point to correct directory
+      lineinfile:
+        path: /etc/nginx/nginx.conf
+        regexp: '^(.*)include \/etc\/nginx\/conf.d\/\*;(.*)$'
+        line: 'include /etc/nginx/sites-enabled/*;'
+        backrefs: yes
     - name: Restart Nginx
       service:
         name: nginx

@@ -1,5 +1,5 @@
 [webserver]
-34.242.245.179
+34.252.231.184
 
 [webserver:vars]
 ansible_user = "ec2-user"
