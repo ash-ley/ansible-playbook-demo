@@ -34,6 +34,9 @@ jobs:
   ansible-deployment:
     runs-on: ubuntu-latest
     steps:
+      - name: Clone your code in the pipeline
+        uses: actions/checkout@v2
+        
       - name: Ansible setup
         uses: ansible/ansible-lint-action@master
         with:
