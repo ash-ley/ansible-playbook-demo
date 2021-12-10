@@ -37,10 +37,21 @@ jobs:
       - name: Clone your code in the pipeline
         uses: actions/checkout@v2
 
-      - name: Ansible setup
-        uses: ansible/ansible-lint-action@master
+      - name: Run playbook
+        uses: dawidd6/action-ansible-playbook@2
         with:
-          targets: 
-            playbook.yml
-            inventory.hosts.yml
-        continue-on-error: true
+          playbook: playbook.yml
+          directory: ./
+          key: ${{secret.SSH_PRIVATE_KEY}}
+          options: |
+            --inventory inventory.hosts.yml
+            --verbose
+
+
+      # - name: Ansible setup
+      #   uses: ansible/ansible-lint-action@master
+      #   with:
+      #     targets: 
+      #       playbook.yml
+      #       inventory.hosts.yml
+      #  continue-on-error: true
