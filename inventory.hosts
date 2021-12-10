@@ -1,5 +1,5 @@
 [webserver]
-34.252.231.184
+"{{host_ip}}"
 
 [webserver:vars]
 ansible_user = "ec2-user"
