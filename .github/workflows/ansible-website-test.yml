@@ -37,6 +37,7 @@ jobs:
       - name: Ansible setup
         uses: ansible/ansible-lint-action@master
         with:
-          playbook: playbook.yml
-          inventory: inventory.hosts
+          targets: 
+            playbook.yml
+            inventory.hosts
         continue-on-error: true
