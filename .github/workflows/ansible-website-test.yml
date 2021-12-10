@@ -31,12 +31,12 @@ jobs:
         run: terraform apply --auto-approve
         continue-on-error: true
 
-      - name: Run Ansible
-        id: Ansible
-        run: ansible-playbook playbook.yml -K
-        continue-on-error: true
-
-      - name: Destroy
-        id: destroy
-        run: terraform destroy --auto-approve
+  ansible-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Ansible setup
+        uses: ansible/ansible-lint-action@master
+        with:
+          playbook: playbook.yml
+          inventory: inventory.hosts
         continue-on-error: true
