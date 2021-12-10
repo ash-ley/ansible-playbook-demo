@@ -20,6 +20,14 @@ resource "aws_security_group" "my_app_sg" {
     cidr_blocks      = ["${chomp(data.http.myip.body)}/32"]
   }
 
+  ingress {
+    description      = "HTTP"
+    from_port        = 80
+    to_port          = 80
+    protocol         = "tcp"
+    cidr_blocks      = ["185.100.71.242/32"]
+  }
+
   egress {
       description = "Allow access to the world"
       from_port = 0

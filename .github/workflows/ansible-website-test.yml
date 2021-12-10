@@ -36,11 +36,11 @@ jobs:
     steps:
       - name: Clone your code in the pipeline
         uses: actions/checkout@v2
-        
+
       - name: Ansible setup
         uses: ansible/ansible-lint-action@master
         with:
           targets: 
             playbook.yml
-            inventory.hosts
+            inventory.hosts.yml
         continue-on-error: true
