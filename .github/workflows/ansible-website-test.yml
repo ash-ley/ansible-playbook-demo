@@ -31,12 +31,6 @@ jobs:
         run: terraform apply --auto-approve
         continue-on-error: true
 
-  ansible-deployment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Clone your code in the pipeline
-        uses: actions/checkout@v2
-
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.5.0
         with:
@@ -46,7 +40,6 @@ jobs:
           options: |
             --inventory inventory.hosts.yml
             --verbose
-
 
       # - name: Ansible setup
       #   uses: ansible/ansible-lint-action@master
