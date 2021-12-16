@@ -39,6 +39,7 @@ jobs:
 
   ansible:
     runs-on: ubuntu-latest
+    needs: terraform
     steps:
       - name: Clone code in the pipeline
         uses: actions/checkout@v2
