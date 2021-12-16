@@ -38,7 +38,7 @@ jobs:
           directory: ansible/
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           options: |
-            --inventory inventory.hosts.yml
+            --inventory hosts.yml
             --verbose
 
       # - name: Ansible setup

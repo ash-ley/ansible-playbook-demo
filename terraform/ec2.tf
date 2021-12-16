@@ -56,6 +56,10 @@ resource "aws_instance" "my_public_server" {
     key_name = var.keypair_name
     subnet_id = module.network.public_subnet_a_id
     vpc_security_group_ids = [ aws_security_group.my_app_sg.id ]
+
+    tags = {
+      Name = "Nginx-Server"
+    }
 }
 
 resource "local_file" "server_ip" {
