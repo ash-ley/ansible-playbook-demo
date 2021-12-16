@@ -48,6 +48,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: host-ip
+          path: ansible/
 
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.5.0
