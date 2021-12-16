@@ -19,23 +19,23 @@ jobs:
 
       - name: Init
         id: init
-        run: terraform init
+        run: terraform -chdir=terraform/ init
 
       - name: Plan
         id: plan
-        run: terraform plan
+        run: terraform -chdir=terraform/ plan
         continue-on-error: true
 
       - name: Apply
         id: apply
-        run: terraform apply --auto-approve
+        run: terraform -chdir=terraform/ apply --auto-approve
         continue-on-error: true
 
       - name: Run Ansible playbook
         uses: dawidd6/action-ansible-playbook@v2.5.0
         with:
           playbook: playbook.yml
-          directory: ./
+          directory: ansible/
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           options: |
             --inventory inventory.hosts.yml

@@ -5,7 +5,7 @@ resource "aws_security_group" "my_app_sg" {
 
     # INBOUND RULES
   ingress {
-    description      = "SSH from my mac"
+    description      = "local SSH"
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
@@ -13,7 +13,7 @@ resource "aws_security_group" "my_app_sg" {
   }
 
   ingress {
-    description      = "HTTP"
+    description      = "local HTTP"
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
@@ -21,11 +21,11 @@ resource "aws_security_group" "my_app_sg" {
   }
 
   ingress {
-    description      = "HTTP"
+    description      = "HTTP from macbook"
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["185.100.71.242/32"]
+    cidr_blocks      = ["81.108.153.97/32"]
   }
 
   egress {
@@ -60,7 +60,7 @@ resource "aws_instance" "my_public_server" {
 
 resource "local_file" "server_ip" {
   content = aws_instance.my_public_server.public_ip
-  filename = "hosts.txt"
+  filename = "../ansible/hosts.txt"
 }
 
 data "http" "myip" {
