@@ -12,6 +12,10 @@
     file:
       path: /etc/nginx/sites-enabled/default
       state: absent
+  - name: create sites-enabled directory
+    file:
+      path: /etc/nginx/sites-enabled
+      state: directory
   - name: Copy nginx site.conf.j2
     template:
       src: files/site.conf.j2
