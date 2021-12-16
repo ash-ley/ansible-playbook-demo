@@ -5,7 +5,7 @@
       state: present
   - name: Copying website files to my server
     copy:
-      src: "{{ app_root }}"
+      src: "files/{{ app_root }}"
       dest: "{{ document_root }}"
       mode: preserve
   - name: delete default nginx site
@@ -15,7 +15,7 @@
   - name: Copy nginx site.conf.j2
     template:
       src: files/site.conf.j2
-      dest: /etc/nginx/sites-enabled/{{ app_root }}
+      dest: "/etc/nginx/sites-enabled/{{ app_root }}"
       owner: root
       group: root
       mode: '0644'
